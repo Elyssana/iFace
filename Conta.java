@@ -14,24 +14,7 @@ public class Conta {
     private ArrayList<Atributo> atributos;
     private ArrayList<MensagemDireta> mensagensDiretas;
 
-    /*
-     * public Conta(UUID id, boolean status, String name, String login, String
-     * senha, ArrayList<Comunidade> comunidades,
-     * ArrayList<Conta> amigos, ArrayList<Convite> convites, ArrayList<Atributo>
-     * atributos,
-     * ArrayList<MensagemDireta> mensagensDiretas) {
-     * this.id = id;
-     * this.status = status;
-     * this.name = name;
-     * this.login = login;
-     * this.senha = senha;
-     * this.comunidades = comunidades;
-     * this.amigos = amigos;
-     * this.convites = convites;
-     * this.atributos = atributos;
-     * this.mensagensDiretas = mensagensDiretas;
-     * }
-     */
+    
 
     public Conta(UUID id, boolean status, String name, String login, String senha) {
         this.id = id;
@@ -49,7 +32,7 @@ public class Conta {
 
     public void editarPerfil() {
         do{
-        System.out.println("Que alteração deseja realizar no seu perfil?\n");
+        System.out.println("\nQue alteração deseja realizar no seu perfil?\n");
         System.out.println("1-alterar nome");
         System.out.println("2-adicionar atributo");
         System.out.println("3-editar atributo");
@@ -93,9 +76,10 @@ public class Conta {
 
             case 3:
 
-                System.out.print("\nInsira o índice do atributo à ser editado:\n>>");
+                System.out.println("Insira o índice do atributo à ser editado:");
                 
                 listarAtributos();
+                System.out.print(">>");
 
                 int optAtb = in.nextInt();
 
@@ -114,10 +98,12 @@ public class Conta {
                 break;
             case 4:
 
-                System.out.println("Insira o índice do atributo à ser deletado:\n");
+                System.out.println("\nInsira o índice do atributo à ser deletado:");
 
                 listarAtributos();
-
+                
+                System.out.print(">>");
+                
                 optAtb = in.nextInt();
 
                 atributos.remove(optAtb);
