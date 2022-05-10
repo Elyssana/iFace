@@ -34,5 +34,10 @@ public class Convite {
     public void setDestinatario(Conta destinatario) {
         this.destinatario = destinatario;
     }
+
+    @Override
+    public String toString() {
+        return "\nConvite [destinatario=" + destinatario + ", remetente=" + remetente + "]\n";
+    }
     
 }
