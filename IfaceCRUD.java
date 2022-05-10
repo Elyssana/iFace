@@ -80,9 +80,10 @@ public class IfaceCRUD {
     public Conta getConta(String usuario) {
 
         for (Conta c : this.contas) {
-            if (Objects.equals(usuario, c.getUsuario()))
-                System.out.println("Convite enviado!\n");
-            return c;
+            if (Objects.equals(usuario, c.getUsuario())){
+                return c;
+            }
+               // System.out.println("Convite enviado!\n");
         }
 
         return null;
