@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -120,16 +121,60 @@ public class Conta {
 
     }
 
-    public void adicionarAmigo(IfaceCRUD CRUD){
+    public void adicionarAmigo(IfaceCRUD CRUD) {
         Scanner in = new Scanner(System.in);
 
-        //encontrar na lista  de usuarios o usuarios que eu quero
+        // encontrar na lista de usuarios o usuarios que eu quero
         System.out.print("Insira o nome de usuario da pessoa:\n>");
-        String usuario = in.nextLine();
-        
-         CRUD.getConta(usuario);
-        //adicionar o convite na lista de convites dela
-        //se ela tiver enviado um convit pra mim tbm ambos saõ adicionados a lista de amigos um do outro
+        String nomeUsuario = in.nextLine();
+
+        Conta usuario = CRUD.getConta(nomeUsuario);
+        /*teesteeeeeeeeeeeeeee*/ //
+        System.out.println(usuario);
+
+        //Convite cnvt = new Convite(UUID.randomUUID(), usuario, this); 
+        this.addConvite(UUID.randomUUID(), usuario, this);
+
+        System.out.println(this.getConvites().get(0).toString());
+
+        /*fim testeeeee ******************** */
+
+
+        Convite convite = this.temConvite(nomeUsuario);
+        // verificar se tem algum convite dela na minha lista de convites
+
+
+        if (convite != null) {
+            // se sim: adicionar um ao outro a lista de amigos de ambos e remover convite da lista
+            this.amigos.add(convite.getRemetente());
+            usuario.amigos.add(convite.getDestinatario());
+
+            this.convites.remove(convite);
+
+            System.out.println("Você e " + nomeUsuario + " agora são amigos!\n");
+        } // senão: envia convite
+        else {
+            usuario.addConvite(UUID.randomUUID(), this, usuario);
+            System.out.println("Convite enviado com sucesso!");
+        }
+
+        /*System.out.println(this.getConvites().get(0).toString());*/
+
+    }
+
+    public Convite temConvite(String user) {
+
+        for (Convite c : this.convites) {
+            if (Objects.equals(user, c.getRemetente().usuario)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void addConvite(UUID id, Conta remetente, Conta destinatario) {
+        Convite c = new Convite(id, remetente, destinatario);
+        this.convites.add(c);
     }
 
     public void listarAtributos() {
