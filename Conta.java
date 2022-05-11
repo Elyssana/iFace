@@ -51,11 +51,21 @@ public class Conta {
                 case 2:
                     this.imprimirComunidades();
                     break;
+                
+                case 3:
+                    this.imprimirAmigos();
+                    break;
+                case 4:
+                    this.imprimirAmigos();
+                    break;
 
                 default:
                     break;
             }
         } while (opcao != 5);
+    }
+
+    private void imprimirAmigos() {
     }
 
     private void imprimirComunidades() {
