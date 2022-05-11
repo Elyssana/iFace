@@ -56,13 +56,16 @@ public class Conta {
                     this.imprimirAmigos();
                     break;
                 case 4:
-                    this.imprimirAmigos();
+                    this.imprimirMensagens();
                     break;
 
                 default:
                     break;
             }
         } while (opcao != 5);
+    }
+
+    private void imprimirMensagens() {
     }
 
     private void imprimirAmigos() {
