@@ -15,9 +15,12 @@ public class Main {
 
         Conta userLog = CRUD.login();
 
+        userLog.criarComunidade(CRUD);
+        userLog.entrarComunidade(CRUD, CRUD.getContas().get(1));
         //TODO criar menu
 
-        userLog.adicionarAmigo(CRUD);
+        //userLog.adicionarAmigo(CRUD);
+        //userLog.removerAmigo();
     }
 
 
