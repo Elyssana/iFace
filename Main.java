@@ -13,10 +13,13 @@ public class Main {
                 "4321");
         CRUD.listarContas();
 
+        
         Conta userLog = CRUD.login();
 
+        userLog.editarPerfil();
         userLog.criarComunidade(CRUD);
         userLog.entrarComunidade(CRUD, CRUD.getContas().get(1));
+        userLog.recuperarInformacao();
         //TODO criar menu
 
         //userLog.adicionarAmigo(CRUD);
