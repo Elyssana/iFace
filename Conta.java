@@ -29,15 +29,53 @@ public class Conta {
 
     }
 
-    public void criarComunidade(IfaceCRUD CRUD){
-        
+    public void recuperarInformacao() {
+        Scanner in = new Scanner(System.in);
+        int opcao;
+        do {
+            System.out.println("RECUPERAR INFORMAÇÃO");
+            System.out.println("1 - Perfil\n"
+                    + "2 - Comunidades\n"
+                    + "3 - Amigos\n"
+                    + "4 - mensagens\n"
+                    + "5 - sair\n");
+
+            System.out.print("Seleciona a informação desejada:\n>");
+            opcao = in.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    this.imprimirPerfil();
+                    break;
+
+                case 2:
+                    this.imprimirComunidades();
+                    break;
+
+                default:
+                    break;
+            }
+        } while (opcao != 5);
+    }
+
+    private void imprimirComunidades() {
+        System.out.println(this.comunidades);
+    }
+
+    private void imprimirPerfil() {
+        System.out.println(this);
+        this.listarAtributos();
+    }
+
+    public void criarComunidade(IfaceCRUD CRUD) {
+
         System.out.println("CRIAR COMUNIDADE");
 
         Scanner in = new Scanner(System.in);
 
         System.out.print("\nInsira o nome da nova comunidade:\n>");
         String nome = in.nextLine();
-        
+
         System.out.print("\nInsira uma descrição:\n>");
         String descricao = in.nextLine();
 
@@ -45,40 +83,33 @@ public class Conta {
         this.comunidades.add(comunidade);
         CRUD.addComunidade(comunidade);
 
-        System.out.println(this.comunidades.get(0));
+        /* System.out.println(this.comunidades.get(0));
         System.out.println("*************************");
-        System.out.println(CRUD.getComunidades().get(0));
+        System.out.println(CRUD.getComunidades().get(0)); */
 
     }
 
-    public void entrarComunidade(IfaceCRUD CRUD, Conta admin){
+    public void entrarComunidade(IfaceCRUD CRUD, Conta admin) {
 
         System.out.println("ENTRAR EM COMUNIDADE");
 
-        /* //INICIO TESTEEEEEE
-        Comunidade cmndd = new Comunidade();
-        cmndd.setId(UUID.randomUUID());
-        cmndd.setAdmin(admin);
-        cmndd.setNome("XUXA");
-        cmndd.setDescrição("dançando ula ula");
-        
-        System.out.println(cmndd);
-        CRUD.addComunidade(cmndd);
-
-        //FIM TESTEEEEEEE */
+    
         Scanner in = new Scanner(System.in);
 
         System.out.print("\nInsira o nome da comunidade:\n>");
         String nome = in.nextLine();
 
         for (Comunidade c : CRUD.getComunidades()) {
-            if(Objects.equals(nome, c.getNome().toString())){
+            if (Objects.equals(nome, c.getNome().toString())) {
                 this.comunidades.add(c);
                 c.addMembro(this);
-                System.out.println("Você entrou na comunidade "+c.getNome());
-                /* System.out.println(this.comunidades.get(1));
-                System.out.println("*************************");
-                System.out.println(CRUD.getComunidades().get(1)) */;
+                System.out.println("Você entrou na comunidade " + c.getNome());
+                return;
+                /*
+                 * System.out.println(this.comunidades.get(1));
+                 * System.out.println("*************************");
+                 * System.out.println(CRUD.getComunidades().get(1)) ;
+                 */
 
             }
         }
@@ -92,10 +123,9 @@ public class Conta {
         System.out.print("Insira o nome de usuario do amigo:\n>");
         String nomeAmigo = in.nextLine();
 
-
         for (Conta a : this.amigos) {
             if (Objects.equals(nomeAmigo, a.usuario)) {
-                
+
                 this.amigos.remove(a);
                 System.out.println("Amigo removido com sucesso!");
                 return;
@@ -114,23 +144,23 @@ public class Conta {
         String nomeUsuario = in.nextLine();
 
         Conta usuario = CRUD.getConta(nomeUsuario);
-        
-        /*inicio teesteeeeeeeeeeeeeee*/ 
+
+        /* inicio teesteeeeeeeeeeeeeee */
         this.addConvite(UUID.randomUUID(), usuario, this);
-        /* System.out.println(usuario);
-
-
-        System.out.println(this.getConvites().get(0).toString());
+        /*
+         * System.out.println(usuario);
+         * 
+         * 
+         * System.out.println(this.getConvites().get(0).toString());
          */
-        /*fim testeeeee ******************** */
-
+        /* fim testeeeee ******************** */
 
         Convite convite = this.temConvite(nomeUsuario);
         // verificar se tem algum convite dela na minha lista de convites
 
-
         if (convite != null) {
-            // se sim: adicionar um ao outro a lista de amigos de ambos e remover convite da lista
+            // se sim: adicionar um ao outro a lista de amigos de ambos e remover convite da
+            // lista
             this.amigos.add(convite.getRemetente());
             usuario.amigos.add(convite.getDestinatario());
 
@@ -143,7 +173,7 @@ public class Conta {
             System.out.println("Convite enviado com sucesso!");
         }
 
-        /*System.out.println(this.getConvites().get(0).toString());*/
+        /* System.out.println(this.getConvites().get(0).toString()); */
 
     }
 
@@ -163,16 +193,18 @@ public class Conta {
     }
 
     public void editarPerfil() {
+        Scanner in = new Scanner(System.in);
+        int opcao;
         do {
             System.out.println("\nQue alteração deseja realizar no seu perfil?\n");
             System.out.println("1-alterar nome");
             System.out.println("2-adicionar atributo");
             System.out.println("3-editar atributo");
-            System.out.print("4-deletar atributo\n>>");
+            System.out.println("4-deletar atributo");
+            System.out.print("5-sair\n>>");
 
-            Scanner in = new Scanner(System.in);
+            opcao = in.nextInt();
 
-            int opcao = in.nextInt();
             String novoNome, novoValor;
             switch (opcao) {
                 case 1:
@@ -249,7 +281,7 @@ public class Conta {
                 default:
                     break;
             }
-        } while (true);
+        } while (opcao != 5);
         /* -alterar nome */
 
     }
@@ -347,12 +379,11 @@ public class Conta {
 
     @Override
     public String toString() {
-        return "****************CONTA*************"
-                //+" \n\nId: "+ id
+        return "\n****************CONTA****************"
+                // +" \n\nId: "+ id
                 + "\n\nNome: " + name
                 + "\nUsuario: " + usuario
-                + "\nSenha: " + senha 
-                + "\n***************************************\n";
+                + "\n***************************************\n\n";
     }
 
 }
