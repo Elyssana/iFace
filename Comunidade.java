@@ -9,14 +9,21 @@ public class Comunidade {
     private String descrição;
     private ArrayList<Conta> membros;
 
-    public Comunidade(UUID id, Conta admin, String nome, String descrição, ArrayList<Conta> membros) {
+    public Comunidade() { 
+        
+        this.membros = new ArrayList<Conta>();
+    }
+
+
+    public Comunidade(UUID id, Conta admin, String nome, String descrição) {
         this.id = id;
         this.admin = admin;
         this.nome = nome;
         this.descrição = descrição;
-        this.membros = membros;
+        this.membros = new ArrayList<Conta>();
     }
-
+    
+    
     public UUID getId() {
         return id;
     }
@@ -53,8 +60,14 @@ public class Comunidade {
         return membros;
     }
 
-    public void setMembros(ArrayList<Conta> membros) {
-        this.membros = membros;
+    public void addMembro(Conta membro) {
+        this.membros.add(membro);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Comunidade [admin=" + admin.getUsuario() + ", descrição=" + descrição + ", membros=" + membros + ", nome=" + nome + "]";
     }
 
 }
