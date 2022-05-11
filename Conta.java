@@ -69,6 +69,7 @@ public class Conta {
     }
 
     private void imprimirAmigos() {
+        System.out.println(this.amigos);
     }
 
     private void imprimirComunidades() {
