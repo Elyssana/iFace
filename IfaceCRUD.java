@@ -15,6 +15,7 @@ public class IfaceCRUD {
     }
 
     public void criarConta() {
+        System.out.println("\nCRIAR CONTA\n");
         Scanner in = new Scanner(System.in);
         String nome, usuario, senha;
 
@@ -47,7 +48,7 @@ public class IfaceCRUD {
     }
 
     public Conta login() {
-        System.out.println("LOGIN");
+        System.out.println("\nLOGIN\n");
         Scanner in = new Scanner(System.in);
         String usuario, senha;
 
@@ -68,6 +69,7 @@ public class IfaceCRUD {
             }
 
         }
+        System.out.println("Usuario não encontrado!\n");
         return null;
 
     }

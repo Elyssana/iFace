@@ -33,12 +33,12 @@ public class Conta {
         Scanner in = new Scanner(System.in);
         int opcao;
         do {
-            System.out.println("RECUPERAR INFORMAÇÃO");
+            System.out.println("\nRECUPERAR INFORMAÇÃO\n");
             System.out.println("1 - Perfil\n"
                     + "2 - Comunidades\n"
                     + "3 - Amigos\n"
-                    + "4 - mensagens\n"
-                    + "5 - sair\n");
+                    //+ "4 - mensagens\n"
+                    + "5 - voltar\n");
 
             System.out.print("Seleciona a informação desejada:\n>");
             opcao = in.nextInt();
@@ -55,8 +55,9 @@ public class Conta {
                 case 3:
                     this.imprimirAmigos();
                     break;
+
                 case 4:
-                    this.imprimirMensagens();
+                    //this.imprimirMensagens();
                     break;
 
                 default:
@@ -83,7 +84,7 @@ public class Conta {
 
     public void criarComunidade(IfaceCRUD CRUD) {
 
-        System.out.println("CRIAR COMUNIDADE");
+        System.out.println("\nCRIAR COMUNIDADE\n");
 
         Scanner in = new Scanner(System.in);
 
@@ -103,9 +104,9 @@ public class Conta {
 
     }
 
-    public void entrarComunidade(IfaceCRUD CRUD, Conta admin) {
+    public void entrarComunidade(IfaceCRUD CRUD) {
 
-        System.out.println("ENTRAR EM COMUNIDADE");
+        System.out.println("\nENTRAR EM COMUNIDADE\n");
 
     
         Scanner in = new Scanner(System.in);
@@ -132,7 +133,7 @@ public class Conta {
 
     public void removerAmigo() {
 
-        System.out.println("REMOVER AMIGO");
+        System.out.println("\nREMOVER AMIGO\n");
         Scanner in = new Scanner(System.in);
         System.out.print("Insira o nome de usuario do amigo:\n>");
         String nomeAmigo = in.nextLine();
@@ -150,7 +151,7 @@ public class Conta {
     }
 
     public void adicionarAmigo(IfaceCRUD CRUD) {
-        System.out.println("ADICIONAR AMIGO");
+        System.out.println("\nADICIONAR AMIGO\n");
         Scanner in = new Scanner(System.in);
 
         // encontrar na lista de usuarios o usuarios que eu quero
@@ -159,8 +160,12 @@ public class Conta {
 
         Conta usuario = CRUD.getConta(nomeUsuario);
 
+        if(usuario == null){
+            System.out.println("Usuario não encontrado!\n");
+            return;
+        }
         /* inicio teesteeeeeeeeeeeeeee */
-        this.addConvite(UUID.randomUUID(), usuario, this);
+       // this.addConvite(UUID.randomUUID(), usuario, this);
         /*
          * System.out.println(usuario);
          * 
@@ -215,7 +220,7 @@ public class Conta {
             System.out.println("2-adicionar atributo");
             System.out.println("3-editar atributo");
             System.out.println("4-deletar atributo");
-            System.out.print("5-sair\n>>");
+            System.out.print("5-voltar\n>>");
 
             opcao = in.nextInt();
 
@@ -398,6 +403,14 @@ public class Conta {
                 + "\n\nNome: " + name
                 + "\nUsuario: " + usuario
                 + "\n***************************************\n\n";
+    }
+
+    public void deletarPerfil(IfaceCRUD CRUD) {
+        System.out.println("\nDeletando Perfil...");
+        CRUD.getContas().remove(this);
+        System.out.println("\nPerfil deletado com sucesso!");
+        return;
+        
     }
 
 }
