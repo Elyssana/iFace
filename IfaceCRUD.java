@@ -38,6 +38,7 @@ public class IfaceCRUD {
     }
 
     public void criarConta(String nome, String usuario, String senha) {
+    System.out.println("CRIAR CONTA");
         Conta novaConta = new Conta(UUID.randomUUID(), nome, usuario, senha);
 
         contas.add(novaConta);
@@ -46,14 +47,17 @@ public class IfaceCRUD {
     }
 
     public Conta login() {
+        System.out.println("LOGIN");
         Scanner in = new Scanner(System.in);
         String usuario, senha;
 
         System.out.print("Usuario:\n>");
-        usuario = in.nextLine();
+        usuario = in.nextLine(); 
+        //usuario = "Ely";//TODO APAGAR ISSO AQUI
 
         System.out.print("Senha:\n>");
         senha = in.nextLine();
+        //senha = "1234";//TODO APAGAR ISSO AQUI
 
         for (Conta c : contas) {
             if (Objects.equals(usuario, c.getUsuario())) {
