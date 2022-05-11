@@ -29,6 +29,139 @@ public class Conta {
 
     }
 
+    public void criarComunidade(IfaceCRUD CRUD){
+        
+        System.out.println("CRIAR COMUNIDADE");
+
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("\nInsira o nome da nova comunidade:\n>");
+        String nome = in.nextLine();
+        
+        System.out.print("\nInsira uma descrição:\n>");
+        String descricao = in.nextLine();
+
+        Comunidade comunidade = new Comunidade(UUID.randomUUID(), this, nome, descricao);
+        this.comunidades.add(comunidade);
+        CRUD.addComunidade(comunidade);
+
+        System.out.println(this.comunidades.get(0));
+        System.out.println("*************************");
+        System.out.println(CRUD.getComunidades().get(0));
+
+    }
+
+    public void entrarComunidade(IfaceCRUD CRUD, Conta admin){
+
+        System.out.println("ENTRAR EM COMUNIDADE");
+
+        /* //INICIO TESTEEEEEE
+        Comunidade cmndd = new Comunidade();
+        cmndd.setId(UUID.randomUUID());
+        cmndd.setAdmin(admin);
+        cmndd.setNome("XUXA");
+        cmndd.setDescrição("dançando ula ula");
+        
+        System.out.println(cmndd);
+        CRUD.addComunidade(cmndd);
+
+        //FIM TESTEEEEEEE */
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("\nInsira o nome da comunidade:\n>");
+        String nome = in.nextLine();
+
+        for (Comunidade c : CRUD.getComunidades()) {
+            if(Objects.equals(nome, c.getNome().toString())){
+                this.comunidades.add(c);
+                c.addMembro(this);
+                System.out.println("Você entrou na comunidade "+c.getNome());
+                /* System.out.println(this.comunidades.get(1));
+                System.out.println("*************************");
+                System.out.println(CRUD.getComunidades().get(1)) */;
+
+            }
+        }
+        System.out.println("Comunidade não encontrada!");
+    }
+
+    public void removerAmigo() {
+
+        System.out.println("REMOVER AMIGO");
+        Scanner in = new Scanner(System.in);
+        System.out.print("Insira o nome de usuario do amigo:\n>");
+        String nomeAmigo = in.nextLine();
+
+
+        for (Conta a : this.amigos) {
+            if (Objects.equals(nomeAmigo, a.usuario)) {
+                
+                this.amigos.remove(a);
+                System.out.println("Amigo removido com sucesso!");
+                return;
+            }
+        }
+        System.out.println("Amigo não encontrado!");
+
+    }
+
+    public void adicionarAmigo(IfaceCRUD CRUD) {
+        System.out.println("ADICIONAR AMIGO");
+        Scanner in = new Scanner(System.in);
+
+        // encontrar na lista de usuarios o usuarios que eu quero
+        System.out.print("Insira o nome de usuario da pessoa:\n>");
+        String nomeUsuario = in.nextLine();
+
+        Conta usuario = CRUD.getConta(nomeUsuario);
+        
+        /*inicio teesteeeeeeeeeeeeeee*/ 
+        this.addConvite(UUID.randomUUID(), usuario, this);
+        /* System.out.println(usuario);
+
+
+        System.out.println(this.getConvites().get(0).toString());
+         */
+        /*fim testeeeee ******************** */
+
+
+        Convite convite = this.temConvite(nomeUsuario);
+        // verificar se tem algum convite dela na minha lista de convites
+
+
+        if (convite != null) {
+            // se sim: adicionar um ao outro a lista de amigos de ambos e remover convite da lista
+            this.amigos.add(convite.getRemetente());
+            usuario.amigos.add(convite.getDestinatario());
+
+            this.convites.remove(convite);
+
+            System.out.println("Você e " + nomeUsuario + " agora são amigos!\n");
+        } // senão: envia convite
+        else {
+            usuario.addConvite(UUID.randomUUID(), this, usuario);
+            System.out.println("Convite enviado com sucesso!");
+        }
+
+        /*System.out.println(this.getConvites().get(0).toString());*/
+
+    }
+
+    public Convite temConvite(String user) {
+
+        for (Convite c : this.convites) {
+            if (Objects.equals(user, c.getRemetente().usuario)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public void addConvite(UUID id, Conta remetente, Conta destinatario) {
+        Convite c = new Convite(id, remetente, destinatario);
+        this.convites.add(c);
+    }
+
     public void editarPerfil() {
         do {
             System.out.println("\nQue alteração deseja realizar no seu perfil?\n");
@@ -119,62 +252,6 @@ public class Conta {
         } while (true);
         /* -alterar nome */
 
-    }
-
-    public void adicionarAmigo(IfaceCRUD CRUD) {
-        Scanner in = new Scanner(System.in);
-
-        // encontrar na lista de usuarios o usuarios que eu quero
-        System.out.print("Insira o nome de usuario da pessoa:\n>");
-        String nomeUsuario = in.nextLine();
-
-        Conta usuario = CRUD.getConta(nomeUsuario);
-        /*teesteeeeeeeeeeeeeee*/ //
-        System.out.println(usuario);
-
-        //Convite cnvt = new Convite(UUID.randomUUID(), usuario, this); 
-        this.addConvite(UUID.randomUUID(), usuario, this);
-
-        System.out.println(this.getConvites().get(0).toString());
-
-        /*fim testeeeee ******************** */
-
-
-        Convite convite = this.temConvite(nomeUsuario);
-        // verificar se tem algum convite dela na minha lista de convites
-
-
-        if (convite != null) {
-            // se sim: adicionar um ao outro a lista de amigos de ambos e remover convite da lista
-            this.amigos.add(convite.getRemetente());
-            usuario.amigos.add(convite.getDestinatario());
-
-            this.convites.remove(convite);
-
-            System.out.println("Você e " + nomeUsuario + " agora são amigos!\n");
-        } // senão: envia convite
-        else {
-            usuario.addConvite(UUID.randomUUID(), this, usuario);
-            System.out.println("Convite enviado com sucesso!");
-        }
-
-        /*System.out.println(this.getConvites().get(0).toString());*/
-
-    }
-
-    public Convite temConvite(String user) {
-
-        for (Convite c : this.convites) {
-            if (Objects.equals(user, c.getRemetente().usuario)) {
-                return c;
-            }
-        }
-        return null;
-    }
-
-    public void addConvite(UUID id, Conta remetente, Conta destinatario) {
-        Convite c = new Convite(id, remetente, destinatario);
-        this.convites.add(c);
     }
 
     public void listarAtributos() {
@@ -270,12 +347,12 @@ public class Conta {
 
     @Override
     public String toString() {
-        return "****************CONTA***************** \n\nId: "
-                + id
-                + "\nNome: " + name
+        return "****************CONTA*************"
+                //+" \n\nId: "+ id
+                + "\n\nNome: " + name
                 + "\nUsuario: " + usuario
-                + "\nSenha: " + senha
-                + "\n***************************************";
+                + "\nSenha: " + senha 
+                + "\n***************************************\n";
     }
 
 }
