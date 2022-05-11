@@ -83,14 +83,17 @@ public class IfaceCRUD {
             if (Objects.equals(usuario, c.getUsuario())){
                 return c;
             }
-               // System.out.println("Convite enviado!\n");
+            // System.out.println("Convite enviado!\n");
         }
-
+        
         return null;
-
+        
     }
-
     
+    
+    public void addComunidade(Comunidade comunidade) {
+        this.comunidades.add(comunidade);
+    }
 
     public ArrayList<Conta> getContas() {
         return contas;
@@ -115,5 +118,6 @@ public class IfaceCRUD {
     public void setFeed(Feed feed) {
         this.feed = feed;
     }
+
 
 }
